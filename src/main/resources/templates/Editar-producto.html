@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto - Panda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Panda</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios">Usuarios</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-3">
+            <div class="col">
+                <h1>Editar Producto</h1>
+            </div>
+            <div class="col-auto">
+                <a href="/productos" class="btn btn-secondary">
+                    Volver a la lista
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{/productos/{id}/actualizar(id=${producto.id})}" th:object="${producto}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                    
+                    <div class="mb-3">
+                        <label for="nombre_producto" class="form-label">Nombre del Producto</label>
+                        <input type="text" class="form-control" id="nombre_producto" th:field="*{nombre_producto}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre_producto')}" th:errors="*{nombre_producto}"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="costo" class="form-label">Costo</label>
+                        <input type="number" class="form-control" id="costo" th:field="*{costo}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('costo')}" th:errors="*{costo}"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="precio_venta" class="form-label">Precio de Venta</label>
+                        <input type="number" class="form-control" id="precio_venta" th:field="*{precio_venta}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('precio_venta')}" th:errors="*{precio_venta}"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="stock" th:field="*{stock}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Actualizar Producto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
