@@ -17,8 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
@@ -114,9 +112,9 @@ public class VentaController {
         venta.setProducto(producto);
         venta.setMedioPago(medioPago);
 
-        // Si no se especifica fecha, usar la actual
+        // Si no se especifica fecha, usar la actual en zona Bogotá
         if (venta.getFecha() == null) {
-            venta.setFecha(LocalDate.now());
+            venta.setFecha(LocalDate.now(ZoneId.of("America/Bogota")));
         }
 
         Venta nuevaVenta = ventaRepository.save(venta);
@@ -264,10 +262,8 @@ public class VentaController {
     public ResponseEntity<List<Venta>> getVentasDelDia() {
         try {
             LocalDate hoy = LocalDate.now(ZoneId.of("America/Bogota")); // Cambia la zona si es distinta
-            LocalDateTime inicio = hoy.atStartOfDay();
-            LocalDateTime fin = hoy.atTime(LocalTime.MAX);
 
-            List<Venta> ventas = ventaRepository.getVentasDelDia(inicio, fin);
+            List<Venta> ventas = ventaRepository.findByFecha(hoy);
             return new ResponseEntity<>(ventas != null ? ventas : Collections.emptyList(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);

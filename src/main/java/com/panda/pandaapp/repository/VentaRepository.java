@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -31,9 +30,9 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                                            @Param("fechaInicio") LocalDate fechaInicio,
                                            @Param("fechaFin") LocalDate fechaFin);
 
-    @Query("SELECT v FROM Venta v WHERE v.fecha BETWEEN :inicio AND :fin ORDER BY v.fecha DESC")
-    List<Venta> getVentasDelDia(@Param("inicio") LocalDateTime inicio,
-                                @Param("fin") LocalDateTime fin);
+    // 🔹 Nuevo método para obtener las ventas del día directamente con LocalDate
+    @Query("SELECT v FROM Venta v WHERE v.fecha = :fecha ORDER BY v.fecha DESC")
+    List<Venta> getVentasDelDia(@Param("fecha") LocalDate fecha);
 
     @Query("SELECT COALESCE(SUM(v.cantidad), 0) " +
            "FROM Venta v " +
